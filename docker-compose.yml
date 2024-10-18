@@ -1,0 +1,35 @@
+services:
+  people-service:
+    build: ./people_service
+    ports:
+      - "8001:8001"
+    networks:
+      - app-network
+    volumes:
+      - ./people_service:/app
+
+  movies-service:
+    build: ./movies_service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - people-service
+    networks:
+      - app-network
+    volumes:
+      - ./movies_service:/app
+
+  frontend-app:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - people-service
+    networks:
+      - app-network
+    volumes:
+      - ./frontend:/app
+  
+networks:
+  app-network:
+    driver: bridge
