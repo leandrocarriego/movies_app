@@ -56,7 +56,7 @@ class PersonViewSet(viewsets.ModelViewSet):
             )
         try:
             person = Person.objects.get(first_name__icontains=name)
-            serializer = PersonDetailSerializer, PersonListSerializer(person)
+            serializer = PersonDetailSerializer(person)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Person.DoesNotExist:
             return Response(
